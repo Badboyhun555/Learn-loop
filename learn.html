@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn | LearnLoop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="page-learn">
+
+    <nav class="navbar">
+        <div class="logo">Learn<span>Loop</span></div>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="learn.html" class="active">Learn</a>
+            <a href="challenge.html">Challenge</a>
+            <a href="progress.html">Progress</a>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="profile-circle">S</div>
+        </div>
+    </nav>
+
+    <main class="learn-container">
+
+        <section class="learn-heading">
+            <div>
+                <p class="small-heading">YOUR LEARNING SPACE</p>
+                <h1>Learn at Your Own Pace 📚</h1>
+                <p>Explore your subjects, revise concepts, access notes and practice what you learn.</p>
+            </div>
+            <div class="streak-mini" id="streakBadge">🔥 0 Day Streak</div>
+        </section>
+
+        <section class="subjects-section">
+            <h2>My Subjects</h2>
+            <div class="subject-grid" id="subjectGrid">
+                <!-- Subjects load from Supabase -->
+            </div>
+        </section>
+
+        <section class="topics-section" id="topicsSection">
+            <div class="section-header">
+                <div>
+                    <p class="small-heading">CONTINUE LEARNING</p>
+                    <h2 id="topicTitle">Loading...</h2>
+                </div>
+                <span class="topic-count" id="topicCount">0 Topics</span>
+            </div>
+            <div class="topic-grid" id="topicGrid">
+                <!-- Topics load from Supabase -->
+            </div>
+        </section>
+
+        <section class="learning-tools">
+            <h2>Learning Tools</h2>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">📝</div>
+                    <h3>Handwritten Notes</h3>
+                    <p>Access clear and useful handwritten notes for quick revision.</p>
+                    <button onclick="openNotesGeneral()">View Notes →</button>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🎥</div>
+                    <h3>Learning Resources</h3>
+                    <p>Find useful videos and resources for difficult concepts.</p>
+                    <button onclick="showResourceMessage()">Explore Resources →</button>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-icon">🧠</div>
+                    <h3>Practice</h3>
+                    <p>Test your understanding with topic-wise practice questions.</p>
+                    <button onclick="goToPractice()">Start Practice →</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="smart-tip">
+            <div class="tip-icon">💡</div>
+            <div>
+                <h3>LearnLoop Smart Tip</h3>
+                <p>Don't just read a concept. Learn it, practice it and revise it. Consistency builds your streak!</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="learn-popup" id="learnPopup">
+        <div class="popup-content">
+            <button class="close-popup" onclick="closeLearnPopup()">×</button>
+            <div id="popupIcon">📖</div>
+            <h2 id="popupTitle">Learning</h2>
+            <p id="popupMessage">Your learning content will appear here.</p>
+            <button class="popup-main-btn" onclick="closeLearnPopup()">Got it !</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
