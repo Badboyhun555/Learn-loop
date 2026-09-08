@@ -158,7 +158,7 @@ async function getSubjectsWithProgress(userId) {
    BLOCK 1 — AUTH (index.html)
 ===================================================== */
 
-function openLogin() {
+/*function openLogin() {
     document.getElementById("loginOverlay").style.display = "flex";
 }
 
@@ -186,7 +186,47 @@ function toggleAuthForm() {
             'Already have an account? <strong onclick="toggleAuthForm()" style="cursor:pointer;">Login</strong>';
     }
 }
+*/
+/* Open popup — 'login' ya 'signup' tab ke saath */
+function openLogin(type) {
+    document.getElementById("loginOverlay").style.display = "flex";
+    showAuthForm(type === "signup" ? "signup" : "login");
+}
 
+function closeLogin() {
+    document.getElementById("loginOverlay").style.display = "none";
+}
+
+/* Login <-> Signup tab switch */
+function showAuthForm(type) {
+
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+    const tabLogin = document.getElementById("tabLogin");
+    const tabSignup = document.getElementById("tabSignup");
+    const title = document.getElementById("authTitle");
+
+    if (type === "signup") {
+
+        loginForm.style.display = "none";
+        signupForm.style.display = "block";
+
+        tabLogin.classList.remove("active");
+        tabSignup.classList.add("active");
+
+        title.innerText = "Create your account";
+
+    } else {
+
+        loginForm.style.display = "block";
+        signupForm.style.display = "none";
+
+        tabLogin.classList.add("active");
+        tabSignup.classList.remove("active");
+
+        title.innerText = "Welcome to LearnLoop";
+    }
+}
 /* ---- SIGNUP ---- */
 async function handleSignup(event) {
 
