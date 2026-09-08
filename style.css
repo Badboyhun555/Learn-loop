@@ -3111,3 +3111,36 @@ h1 span {
     border-color: #dc2626;
     color: #dc2626;
 }
+/* ==== Auth Tabs (Login / Signup) ==== */
+
+.auth-tabs {
+    display: flex;
+    gap: 8px;
+    margin: 18px 0;
+    padding: 4px;
+    border-radius: 12px;
+    background: rgba(128, 128, 128, 0.12);
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.auth-tab:hover {
+    background: rgba(128, 128, 128, 0.15);
+}
+
+.auth-tab.active {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
