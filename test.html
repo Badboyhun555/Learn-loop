@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnLoop Diagnostic</title>
+<style>
+    body { font-family: system-ui, sans-serif; background: #0f172a; color: #e2e8f0; padding: 20px; max-width: 600px; margin: 0 auto; }
+    h1 { font-size: 22px; }
+    .check { background: #1e293b; border-radius: 12px; padding: 14px 16px; margin: 10px 0; }
+    .pass { border-left: 4px solid #22c55e; }
+    .fail { border-left: 4px solid #ef4444; }
+    .title { font-weight: 700; }
+    .detail { font-size: 13px; color: #94a3b8; margin-top: 4px; word-break: break-all; }
+</style>
+</head>
+<body>
+<h1>🔍 LearnLoop Diagnostic</h1>
+<p>Checks chal rahe hain, 5 second ruko...</p>
+<div id="results"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const results = document.getElementById("results");
+
+function addCheck(title, passed, detail) {
+    const div = document.createElement("div");
+    div.className = "check " + (passed ? "pass" : "fail");
+    div.innerHTML =
+        '<div class="title">' + (passed ? "✅" : "❌") + " " + title + '</div>' +
+        '<div class="detail">' + (detail || "") + '</div>';
+    results.appendChild(div);
+}
+
+async function runDiagnostics() {
+
+    /* Check 1: HTTPS */
+    addCheck("HTTPS Connection",
+        location.protocol === "https:",
+        location.protocol === "https:" ? "" :
+        "SHA-256 hashing ke liye HTTPS zaroori hai!");
+
+    /* Check 2: Supabase library */
+    if (typeof window.supabase !== "undefined") {
+        addCheck("Supabase Library (CDN)", true, "supabase-js load ho gaya");
+    } else {
+        addCheck("Supabase Library (CDN)", false,
+            "supabase-js load NAHI hua. Internet check karo.");
+        return;
+    }
+
+    /* Check 3: supabase-config.js file exist karti hai? */
+    let configText = "";
+    try {
+        const res = await fetch("supabase-config.js");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        configText = await res.text();
+        addCheck("supabase-config.js File", true, "File server pe mil gayi");
+    } catch (e) {
+        addCheck("supabase-config.js File", false,
+            "File GitHub repo me NAHI hai! (404) — File name ka spelling/case check karo.");
+        return;
+    }
+
+    /* Check 4: Placeholder values? */
+    if (configText.includes("YOUR-PROJECT-ID") || configText.includes("YOUR-ANON")) {
+        addCheck("API Keys", false,
+            "supabase-config.js me abhi bhi PLACEHOLDER values hain! Apna URL + key daalo.");
+        return;
+    }
+    addCheck("API Keys", true, "Placeholder nahi mila");
+
+    /* Check 5: Config se client banao */
+    const urlMatch = configText.match(/SUPABASE_URL\s*=\s*["']([^"']+)["']/);
+    const keyMatch = configText.match(/SUPABASE_ANON_KEY\s*=\s*["']([^"']+)["']/);
+
+    if (!urlMatch || !keyMatch) {
+        addCheck("Config Format", false,
+            "supabase-config.js me URL/key ka format galat hai.");
+        return;
+    }
+
+    let client;
+    try {
+        client = window.supabase.createClient(urlMatch[1], keyMatch[1]);
+        addCheck("Supabase Client", true, "Client ban gaya");
+    } catch (e) {
+        addCheck("Supabase Client", false, e.message);
+        return;
+    }
+
+    /* Check 6: users table */
+    try {
+        const { data, error } = await client.from("users").select("id").limit(1);
+        if (error) throw error;
+        addCheck("users Table", true, "Table exist karti hai ✅ (abhi rows: " + (data ? data.length : 0) + ")");
+    } catch (e) {
+        addCheck("users Table", false,
+            e.message + " — SQL schema Supabase me run karna bhool gaya kya?");
+        return;
+    }
+
+    /* Check 7: subjects table */
+    try {
+        const { data, error } = await client.from("subjects").select("id").limit(1);
+        if (error) throw error;
+        addCheck("subjects Table", true, "Seed data ready hai");
+    } catch (e) {
+        addCheck("subjects Table", false, e.message);
+    }
+
+    addCheck("SAB READY! 🎉", true,
+        "Sab checks pass hain. Agar phir bhi signup nahi hota = purani script.js CACHED hai. Neeche Step 4 dekho.");
+}
+
+runDiagnostics();
+</script>
+</body>
+</html>
