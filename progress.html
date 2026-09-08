@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress | LearnLoop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="page-progress">
+
+    <header class="navbar">
+        <div class="logo">Learn<span>Loop</span></div>
+        <nav>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="learn.html">Learn</a>
+            <a href="challenge.html">Challenge</a>
+            <a href="progress.html" class="active">Progress</a>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+            <div class="profile-circle">S</div>
+        </nav>
+    </header>
+
+    <main class="progress-container">
+
+        <section class="progress-header">
+            <div>
+                <p class="small-heading">YOUR LEARNING JOURNEY</p>
+                <h1>Progress & Achievements 🏆</h1>
+                <p>Track your growth, celebrate your achievements, and keep improving every day.</p>
+            </div>
+            <div class="progress-streak" id="streakBadge">🔥 0 Day Streak</div>
+        </section>
+
+        <section class="progress-section">
+            <h2>Overall Progress 📊</h2>
+            <div class="progress-overview">
+                <div class="overall-progress-card">
+                    <div class="circle-progress">
+                        <strong id="overallPercent">0%</strong>
+                        <span>Overall</span>
+                    </div>
+                    <div>
+                        <h3>Great progress! 🎉</h3>
+                        <p>You are making steady progress. Keep learning consistently.</p>
+                    </div>
+                </div>
+                <div class="progress-stat">
+                    <span>Lessons Completed</span>
+                    <strong id="prLessons">0</strong>
+                </div>
+                <div class="progress-stat">
+                    <span>Quiz Accuracy</span>
+                    <strong id="prAccuracy">0%</strong>
+                </div>
+                <div class="progress-stat">
+                    <span>Study Time</span>
+                    <strong id="prStudyTime">0 min</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="progress-section">
+            <h2>Subject-wise Progress 📚</h2>
+            <div class="subject-progress-list" id="subjectProgressList">
+                <!-- Loads from Supabase -->
+            </div>
+        </section>
+
+        <section class="progress-section">
+            <h2>Achievements 🏆</h2>
+            <div class="achievement-grid">
+                <div class="achievement-card unlocked" id="achStreak7" data-icon="🔥">
+                    <div class="achievement-icon">🔥</div>
+                    <h3>7 Day Streak</h3>
+                    <p>Studied for 7 consecutive days.</p>
+                    <span class="achievement-status">Unlocked</span>
+                </div>
+                <div class="achievement-card unlocked" id="achQuiz" data-icon="🎯">
+                    <div class="achievement-icon">🎯</div>
+                    <h3>Quiz Master</h3>
+                    <p>Achieved more than 80% quiz accuracy.</p>
+                    <span class="achievement-status">Unlocked</span>
+                </div>
+                <div class="achievement-card unlocked" id="achLessons10" data-icon="📚">
+                    <div class="achievement-icon">📚</div>
+                    <h3>First 10 Lessons</h3>
+                    <p>Completed your first 10 lessons.</p>
+                    <span class="achievement-status">Unlocked</span>
+                </div>
+                <div class="achievement-card locked" id="achLegend" data-icon="👑">
+                    <div class="achievement-icon">🔒</div>
+                    <h3>30 Day Legend</h3>
+                    <p>Maintain a 30-day learning streak.</p>
+                    <span class="achievement-status">Locked</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="progress-section">
+            <h2>Recent Activity 🕒</h2>
+            <div class="activity-list" id="activityList">
+                <!-- Loads from Supabase -->
+            </div>
+        </section>
+
+        <section class="profile-section">
+            <div class="profile-avatar">S</div>
+            <div class="profile-details">
+                <h2>Student Profile</h2>
+                <p id="profileSummaryLine">B.Tech • — • —</p>
+                <span id="profileGoal">🎯 Goal: —</span>
+            </div>
+            <button class="profile-btn" onclick="showProfileMessage()">View Profile</button>
+        </section>
+    </main>
+
+    <div id="profileOverlay" class="profile-overlay">
+        <div class="profile-popup">
+            <button class="close-popup" onclick="closeProfileMessage()">×</button>
+            <h2>👤 Student Profile</h2>
+            <p id="pName">Name: —</p>
+            <p id="pBranch">Branch: —</p>
+            <p id="pYear">Year: —</p>
+            <p id="pGoal">Goal: —</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
